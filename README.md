@@ -8,7 +8,8 @@ img文件夹中为Markdown文档中所用到的图片，主要来源是老师的
 Notes.md就是所记的笔记啦
 
 # 使用建议
-你可以选择一个你自己喜欢的Markdown文件浏览器，我推荐使用VSCode外加插件的形式，以方便阅读一些 ***alerts*** 代码块 ，我推荐使用
+你可以选择一个你自己喜欢的Markdown文件浏览器，我推荐使用VSCode外加插件的形式，以方便阅读一些 ***alerts*** 代码块 ，我推荐使用Vscode插件如下
+
 - Matt Bierner的GitHub Markdown Preview，将markdown渲染成GitHUb风格的
 - saeris的Markdown GitHub Alerts & Obsidian Callouts，可以成功渲染alerts块
 
