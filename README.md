@@ -1,5 +1,7 @@
 # Hi,there! :)
 
+# 这是根据CAD的PPT总结出来的笔记，加上了一点个人的理解。个人觉得期末的时候可以完全用这个note替代ppt
+
 # 各个文件的主要内容 
 img文件夹中为Markdown文档中所用到的图片，主要来源是老师的课件以及 `Electric Circuit` 和 `Fundamentals of Electric Circuits sixth edition`的插图 
 
