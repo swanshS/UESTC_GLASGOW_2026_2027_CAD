@@ -5,9 +5,18 @@
 # 各个文件的主要内容 
 img文件夹中为Markdown文档中所用到的图片，主要来源是老师的课件以及 `Electric Circuit` 和 `Fundamentals of Electric Circuits sixth edition`的插图 
 
-课件文件夹中即为老师的ppt内容
-
 Notes.md就是所记的笔记啦
+
+# 基本功能
+
+## 折叠例题的答案和过程
+
+可以在复习时先自己做一遍，做完再看答案，免得一下就瞥到答案了
+
+![demo](./demo.gif)
+
+# 笔记排版
+都是以Lecture的顺序来排的，最后的Extra部分是在教材上面找的补充知识点
 
 # 使用建议
 你可以选择一个你自己喜欢的Markdown文件浏览器，我推荐使用VSCode外加插件的形式，以方便阅读一些 ***alerts*** 代码块 ，我推荐使用Vscode插件如下
