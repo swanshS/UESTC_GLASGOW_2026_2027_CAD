@@ -25,5 +25,4 @@ Notes.md就是所记的笔记啦
 >
 > swanshsong07@outlook.com
 
-## 如果这个笔记对你有帮助并且非常喜欢，buy me a coffee,please  :)
-![image](./sponser.JPG)
+## 如果这个笔记对你有帮助并且非常喜欢，star 一下,谢谢:)
