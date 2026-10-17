@@ -1276,3 +1276,131 @@ $$P(t)=-\frac{(V_0)^2}{R}e^{-\frac{2t}{\tau}}(P=VI)$$
 > [!IMPORTANT]
 > 关于阶跃响应的结果和分析方式和自然响应类似，于是不再赘述，请读者自行推导:)
 
+
+
+# Extra
+## $\footnotesize \Delta-Y$变换和$\footnotesize Y-\Delta$变换
+![image](./img/extra/delta_y_trans/def.png) 
+
+图(a)为$\footnotesize \Delta$型，图(b)为$\footnotesize Y$型
+
+有时$\Delta$型不容易分析电路，转换成$Y$型有奇效，同样的$Y$型不好分析的时候可以试着转换成$\Delta$型
+
+### 转换公式及其推导
+
+由上面的图片，我们设三个端口分别是a,b,c,我们需要等效的`就是端口两两之间的电阻`，也就是 ***(a)中ab端口间的电阻等于(b)中ab端口间的电阻***。bc之间，ac之间的端口同理。
+
+我们想要根据一个类型($\Delta$或$Y$)构建出另一种类型($Y$或$\Delta$),我们就需要找到这两种类型中这些电阻的关系，可以通过设未知数然后求解来算出电阻。
+
+#### $\Delta->Y$
+以ab端口为例：
+$$
+R_{ab}=R_1||(R_2+R_3)=\frac{R_1R_2+R_1R_3}{R_1+R_2+R_3}=R_a+R_b\tag{1}
+$$
+
+同理，对ac端口，bc端口做分析，可以得到
+
+$$
+R_{ac}=R_3||(R_1+R_2)=\frac{R_1R_3+R_2R_3}{R_1+R_2+R_3}=R_a+R_c\tag{2}
+$$
+
+$$
+R_{bc}=R_2||(R_1+R_3)=\frac{R_1R_2+R_2R_3}{R_1+R_2+R_3}=R_b+R_c\tag{3}
+$$
+
+现在我们已知$R_1,R_2,R_3$,想求解$R_a,R_b,R_c$,逐个消元即可
+
+计算$R_a$:
+$$R_a=\frac{(1)+(2)-(3)}{2}=\frac{2R_1R_3}{2(R_1+R_2+R_3)}=\frac{R_1R_3}{R_1+R_2+R_3}$$
+
+同理，可以求出
+$$R_b=\frac{(1)+(3)-(2)}{2}=\frac{2R_1R_2}{2(R_1+R_2+R_3)}=\frac{R_1R_2}{R_1+R_2+R_3}$$
+
+$$R_c=\frac{(2)+(3)-(1)}{2}=\frac{2R_2R_3}{2(R_1+R_2+R_3)}=\frac{R_2R_3}{R_1+R_2+R_3}$$
+
+所以，$\Delta -> Y$ 的解：
+$$
+\begin{cases}
+R_a = \frac{R_1R_3}{R_1+R_2+R_3} \\[6pt]
+R_b = \frac{R_1R_2}{R_1+R_2+R_3} \\[6pt]
+R_c = \frac{R_2R_3}{R_1+R_2+R_3}
+\end{cases}
+$$
+
+#### $Y->\Delta$
+同样的道理，我们可以列出3个方程，不过未知量变成了$R_a,R_b,R_c$,我们需要求解$R_1,R_2,R_3$
+
+从方程组
+$$
+\begin{cases}
+R_{ab}=R_1||(R_2+R_3)=\frac{R_1R_2+R_1R_3}{R_1+R_2+R_3}=R_a+R_b\\[12pt]
+R_{ac}=R_3||(R_1+R_2)=\frac{R_1R_3+R_2R_3}{R_1+R_2+R_3}=R_a+R_c\\[12pt]
+R_{bc}=R_2||(R_1+R_3)=\frac{R_1R_2+R_2R_3}{R_1+R_2+R_3}=R_b+R_c
+\end{cases}
+$$
+来看并不好入手化简，于是尝试从上面的解来入手，求出$R_1,R_2,R_3$
+
+$$
+\begin{cases}
+R_a = \frac{R_1R_3}{R_1+R_2+R_3}(1) \\[12pt]
+R_b = \frac{R_1R_2}{R_1+R_2+R_3}(2) \\[12pt]
+R_c = \frac{R_2R_3}{R_1+R_2+R_3}(3)
+\end{cases}
+$$
+
+$(1)\times(2)+(1)\times(3)+(2)\times(3)=R_aR_b+R_aR_c+R_bR_c=\frac{R_1R_2R_3}{R_1+R_2+R_3}$
+> [!TIP]
+> 我们可以注意到，等式的最右边是一个极其对称的结构，并且与$R_a,R_b,R_c$的值对比，就可以发现它其实可以拆分成两项的乘积，一个是$Y$电路里面的电阻，一个是$\Delta$里面的电阻,比如，可以拆分成$R_a\times R_2$
+
+所以，我们可以求得解
+$$
+\begin{cases}
+R_1 = \frac{R_aR_b+R_aR_c+R_bR_c}{R_c}\\[12pt]
+R_2 = \frac{R_aR_b+R_aR_c+R_bR_c}{R_a}\\[12pt]
+R_3 = \frac{R_aR_b+R_aR_c+R_bR_c}{R_b}
+\end{cases}
+$$
+
+> [!IMPORTANT]
+> 记忆
+>
+>$\Delta->Y$：分子邻边乘，分母三个和
+>
+>$Y->\Delta$：分子积之和，分母是对角
+
+### 例题
+#### ex1
+
+<details>
+
+<summary>
+
+求$V_c$的值
+
+![image](./img/extra/delta_y_trans/ex_1_1.png) 
+
+</summary>
+
+我们可以将$a,b,c$及其连接的线路看作是一个$Y$型电路，我们可以将它简化成一个$\Delta$型电路
+
+![image](./img/extra/delta_y_trans/ex_1_2.png) 
+
+这是一个$Y->\Delta$型的。根据上面推导的公式，我们可以计算出对应的电阻
+
+$$
+\begin{cases}
+R_1 = \frac{R_aR_b+R_aR_c+R_bR_c}{R_c}=7.6K\Omega\\[12pt]
+R_2 = \frac{R_aR_b+R_aR_c+R_bR_c}{R_a}=19K\Omega\\[12pt]
+R_3 = \frac{R_aR_b+R_aR_c+R_bR_c}{R_b}=9.5K\Omega
+\end{cases}
+$$
+
+为了使这个电路更好看一点，还可以画将并联的和在一起，简化成
+
+![image](./img/extra/delta_y_trans/ex_1_3.png) 
+
+其中，$R_f$是$R_d,R_3$并联的等效电阻，$R_g$是$R_2,R_e$并联的等效电阻,$V_c$就是$R_g$的分压，等于$3.9024V$
+$$\therefore V_c=3.9024V$$
+</details>
+
+
