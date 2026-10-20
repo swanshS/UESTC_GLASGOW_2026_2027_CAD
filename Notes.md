@@ -1026,12 +1026,16 @@ $$V_{out}+IR_s=I_sR_s$$
 	>保留原电路中的所有独立源和受控源。直接用基尔霍夫定律（KCL/KVL）、节点电压法、网孔电流法等常规方法求解 a、b 两端的电压。这个电压值就是 $V_{th}$，注意标注极性（正极指向 a 还是 b）。
 
 3. 求戴维南等效电阻 $R_{th}$
-	>将所有独立源的值设置成0(独立电流源就将这个支路看成开路，独立电压源就将这个支路看成短路)
+
+	#### 方法1
+	>将所有独立源的值设置成0(独立电流源就将这个支路看成$\textcolor{red}{开路}$，独立电压源就将这个支路看成$\textcolor{red}{短路}$)
 	>
 	>保留所有受控源，并且控制关系不变
 	>
 	>在a,b两个端口外加测试电压$V_{S}$,通过前面学过的分析简单电路的方法(KCL,KVL,节点分析法，网格分析法，等效电阻...)来计算电流$I_{S}$,进而用$$R_{th}=\frac{V_S}{I_S}$$来计算戴维南电阻
 
+	#### 方法2
+	> 用导线将$a,b$端口连接，找到短路电流$I_{sc}$,$R_{th}=\frac{V_{th}}{I_{sc}}$
 #### 例题
 
 ##### 8.1
@@ -1085,6 +1089,46 @@ $$I_S=\frac{4V_S}{5},R_{th}=1.25K\Omega$$
 </details>
 
 
+
+##### 8.2
+
+<details>
+
+<summary>	
+
+求出$V_{th}$和$R_{th}$ 
+
+![image](./img/Lec8/ex2_1.png) 
+
+</summary>
+
+我门可以观察到这个电路出现了$\text{电压源与电阻串联}$和$\text{电流源与电阻并联}$的结构，我们可以通过上面学到的电源转换来化简电路，以便方面我们求$V_{th}$和$R_{th}$
+
+
+$V_s$与$R_1$串联，可以变换成电流源与电阻并联：
+
+![image](./img/Lec8/ex2_2.png)
+
+$I_1=\frac{V_s}{R_1}=1mA$
+
+接着讲两个电流源$I_1,I_s$合并成一个$3mA$的电流源，$R_1,R_2$合成$R_5=4K\Omega$,接着出现电流源并联电阻，继续电源转换，得到
+
+![image](./img/Lec8/ex2_3.png) 
+
+这样简化电路过后$a,b$点测的开路电压$V_{oc}$其实就是$R_4$的分压，根据串联分压，可以得到$V_{oc}=\frac{12V}{4K\Omega+5k\Omega+6k\Omega}\times 6k\Omega=4.8V$
+
+这样$V_{th}=V_{oc}=4.8V$就求出来了，剩下的需要求出$R_{th}$,我们尝试一下方法二:
+
+将$a,b$短接，$R_4$被短路了，电路变成了$V$串联$R_5+R_3$,可以很轻松求出短路电流$I_{sc}=\frac{V}{R_5+R_3}=\frac{12V}{4k\Omega+5k\Omega}=\frac{4}{3}mA$
+
+$$R_{th}=\frac{V_{oc}}{I_{sc}}=3.6k\Omega$$
+
+最后戴维南等效过后电路变成这样：
+
+![image](./img/Lec8/ex2_final.png) 
+
+</details>
+
 # Lecture 9
 
 ## 诺顿定理Norton’s theorem
@@ -1114,7 +1158,7 @@ $$ 将全部独立源设置成0,保留受控源的关系$$
 
 ## 电容器 capacitor
 ### 定义
->电容是无源被动电子元件，核心功能是可以存储电场能量，需要时向外释放能量
+>电容是无源被动电子元件，核心功能是可以存储`电场`能量，需要时向外释放能量
 >
 >平行板电容的结构：两片平行导电极板，中间填充绝缘电介质(电介质材料：dielectric material)
 >
@@ -1122,7 +1166,82 @@ $$ 将全部独立源设置成0,保留受控源的关系$$
 
 ### 工作原理
 
-能量被储存到正负极板之间的电场中,这个能量的大小取决于电容器的电容大小和两极板之间的电压 
+能量被储存到`正负极板之间的电场`中,这个能量的大小取决于电容器的电容大小和两极板之间的电压 
+
+![image](./img/Lec_10/energyField.png) 
+
+如上图所示，平行电容板之间的距离$d$,板子的面积$S$,$\varepsilon$为两板子之间的介电常数.通常情况下，$d$相对较小，$S$相对较大,于是我们忽略平行电容板的边缘效应：
+![image](./img/Lec_10/fringeEffect.png) 
+两板边缘的电场线弯曲就是边缘效应
+
+忽略了边缘效应后，我们可以将两极板之间的电场看成是匀强的，电位移矢量(electric flux density)可以表示为$$D=\varepsilon E$$电位移矢量 $\mathbf{D}$ 表示单位面积上穿过的电通量
+
+$D$的大小是由板子的自由电荷决定的(也就是板子的带电量)，$\varepsilon$是由中间的材料决定的，$D,\varepsilon$共同决定了两个板子之间的场强大小
+
+|       $\varepsilon$        |        $\varepsilon_0$         |              $\varepsilon_r$               |
+| :------------------------: | :----------------------------: | :----------------------------------------: |
+|       介质的介电常数       |         真空的介电常数         |                相对介电常数                |
+| permittivity of the medium | permittivity of the free space | relative permittivity(dielectric constant) |
+
+这三者之间的关系$$\varepsilon=\varepsilon_0\times \varepsilon_r$$
+
+> [!NOTE]
+> $\varepsilon_r$没有量纲(单位)
+
+区别于真空条件下的高斯定理
+
+$$
+\oint_S \mathbf{E} \cdot d\mathbf{A} = \frac{Q_{\text{total}}}{\varepsilon_0}
+$$
+介质中的高斯定理为:
+$$
+\oint \boldsymbol{D} \cdot d\boldsymbol{s} = \oint \varepsilon \boldsymbol{E} \cdot d\boldsymbol{s} = Q_{free}
+$$
+因为表面与电场强度方向始终垂直，并且电场匀强，我们可以得到
+
+$$
+\oint \varepsilon \boldsymbol{E} \cdot d\boldsymbol{s} = \varepsilon E \int ds = \varepsilon E S = Q
+$$
+其中S是板子的面积,经过变形，可以得到场强$$E=\frac{Q}{S\varepsilon}$$
+电场的正方向从正极板指向负极板，根据电压的定义
+$$
+V = -\int \boldsymbol{E} \cdot d\boldsymbol{l}
+$$
+> [!NOTE]
+> 其中的负号表示顺着电场线方向走，电势降低;逆着电场线方向走，电势增高
+
+于是正极板到负极板的电势差为
+$$
+V = Ed = \frac{Qd}{\varepsilon S} = \frac{Q}{\frac{\varepsilon S}{d}}
+$$
+因为电容量的定义$C=\frac{Q}{V}$
+所以$$C=\frac{\varepsilon S}{d}$$
+
+> [!IMPORTANT]
+> 这个公式里面的电容量和面积，两极板的距离的关系与电容的串并联所形成的等效电容量有很大关系！串联可以理解成增大两板之间的间距；并联可以理解成增加两板间的面积
+
+#### 求解电容C
+上面展示了平行电容板如何求解电容C,下面求一下圆柱形的电容器的电容
+![image](./img/Lec_10/cylinder.png)
+
+<details>
+	<summary>
+	The cross-sectional view of a cylindrical capacitor with length L is shown in Figure 6.4. An inner conductor with charge Q has a radius a and the outer conductor with charge -Q has a radius b. The space between the conductors are filled with dielectric material with permittivity epsilon. The direction of the electric field inside the dielectric medium is radial.
+	</summary>
+
+$$\oint \varepsilon \boldsymbol{E} \cdot d\boldsymbol{s} = \varepsilon E 2\pi\rho L = Q$$
+
+$$E = \frac{Q}{\varepsilon 2\pi\rho L}$$
+
+$$V_{ab} = V_a - V_b = -\int_{b}^{a} \frac{Q}{\varepsilon 2\pi\rho L} d\rho = \frac{Q}{\varepsilon 2\pi L} \left[ -\int_{b}^{a} \frac{1}{\rho} d\rho \right]$$
+$$= \frac{Q}{\varepsilon 2\pi L} \left[ -\ln\left(\frac{a}{b}\right) \right] = \frac{Q}{\varepsilon 2\pi L} \ln\left(\frac{b}{a}\right)$$
+
+$$C = \frac{Q}{V_{ab}} = \frac{2\pi\varepsilon L}{\ln\left(\frac{b}{a}\right)}$$
+
+</details>
+
+> [!NOTE]
+> 根据物理所学的高斯定理，平行电容板的上下两级所带电荷总是大小相同，属性相反的。不可能一个板子上带+Q电荷，另一个板子上面带-2Q电荷。总是+Q,-Q成对出现的，于是我们将Q成为电容的带电量
 
 ### 分类
 > 根据电容大小和使用的材料，电容器可以分为很多种类
@@ -1227,7 +1346,70 @@ $$\Phi = B \cdot A \cdot \cos\theta$$
 ### 楞次定理 Lenz’s Law
 感应电流产生的磁场，总是阻碍「引起感应电流的原磁通量的变化」
 
+### 磁场强度，磁通密度，磁导率
+
+$B = \mu H$
+
+$B$：磁通密度（磁感应强度），代表空间中总的磁场效果（包括外加激励和介质磁化产生的附加场）。
+
+$H$：磁场强度，仅反映外部激励源（如传导电流）产生的磁场，与介质无关
+
+$\mu$：磁导率，刻画材料被磁化的难易程度，即材料在单位磁场强度下能产生多大的磁通密度。
+
+它与电位移 $D = \varepsilon E$ 完全对应：
+
+$E$（电场强度）↔ $H$（磁场强度）：仅由自由电荷/传导电流决定。
+
+$D$（电位移）↔ $B$（磁通密度）：包含了介质极化和磁化的总效果。
+
+$\varepsilon$（介电常数）↔ $\mu$（磁导率）：材料的响应系数。
+
 ## 电感器 inductor
+
+![image](./img/Lec_11/solenoid.png) 
+>最简单的电感器- ->螺旋管(solenoid)
+
+如果有电流流过线圈，那么磁场就会产生，磁场的方向遵循右手定则。如果线圈的直径相较于螺旋管的长度来说很小，即是一个长直螺旋管，那么就可以认为螺旋管内部的磁场是匀强的，并且外部磁场的磁通密度是0(因为所有的磁感线都被包围在螺旋管里面了，磁感线出不去)。螺旋管内部的磁通密度(磁感应强度)可以通过安培定理找到，令螺旋管长度是$l$,线圈的匝数是$N$,我们将闭合线路设置成矩形：
+
+![image](./img/Lec_11/path.png) 
+
+根据上面的假设:磁场是匀强的，并且矩形边a没有磁场所以$\oint \vec{B} \cdot d\vec{l} = \mu_0 I_{enc}$
+
+所以$Bl=\mu_0NI,B=\frac{\mu_0NI}{l}$
+
+可以通过磁通密度计算磁通量:
+
+$$
+\Phi = \int\limits_{S} \boldsymbol{B} \cdot d\boldsymbol{s} = BS = \frac{\mu_0 N I}{\ell} S
+$$
+
+假设螺旋线的半径是$r$,可以算出磁通量$\Phi=\frac{\mu_0NI\pi r^2}{l}$
+
+因为每一匝线圈都包含磁通量，所以有了一个新的概念:磁通链$\Lambda = N\Phi= N \left( \frac{\mu_0 N I}{\ell} \pi r^2 \right) = \frac{\mu_0 N^2 I \pi r^2}{\ell}$
+
+自感定义:磁通连除以电流:$L = \frac{\Lambda}{I} = \frac{\mu_0 N^2 \pi r^2}{\ell}$
+
+> [!IMPORTANT]
+> 为什么前面要讲什么法拉第电磁感应定律和一些自感的定义？这些感觉跟电分没什么关系？？？
+>
+>大的来了
+>
+>根据法拉第电磁感应定律:变化的磁通量会产生感应电动势(electromotive force->emf)$\mathcal{E} = -\frac{d\Phi_B}{dt}$
+>
+>在这里是N匝线圈，相当于电池的串联，感应电动势就变成了$\mathcal{E} = -N\frac{d\Phi_B}{dt}$)=$\mathcal{E} = -\frac{d(N\Phi_B)}{dt}$
+>
+>楞次定理可以用来找感应电流的方向，也就相当于感应电动势的正负极分别在哪个方向
+>
+>![image](./img/Lec_11/lenz.png) 
+>
+>对于螺旋线圈，可以替换成$\mathcal{E} = -\frac{d}{dt}\!\left(\frac{\mu_0 N^2 \pi r^2}{\ell} I\right)= -\frac{\mu_0 N^2 \pi r^2}{\ell}\,\frac{dI}{dt}$
+>
+>前面的一推系数就是自感系数$L$,所以$\mathcal{E} = -L\,\frac{dI}{dt}$
+
+感应电动势方向:
+
+![image](./img/Lec_11/IIncrease.png) 
+![image](./img/Lec_11/IDecrease.png) 
 ### 基本介绍
 - 和电容器一样，属于无源元件
 - 简单的电感器由螺旋管组成，即绕成螺旋状的导线
@@ -1243,6 +1425,9 @@ $$\Phi = B \cdot A \cdot \cos\theta$$
 - 调谐信号（与电容器混合使用可以用来选择特定频率的信号）
 - 变压器（通过电磁感应实现电压的升降）
 - 感应传感（检测金属或者变化的磁场）
+
+> [!NOTE]
+> 跟电容器不一样，电感器是将能量储存在`磁场`中，而不是电场
 
 ### 电感
 >电感是衡量电感器在给定电流变化下产生磁通量的能力的度量
