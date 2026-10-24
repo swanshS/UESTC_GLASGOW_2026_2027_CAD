@@ -120,6 +120,13 @@ V_{AB}=V_A-V_B=\int_A^B \mathbf{E}\cdot d\mathbf{l},\text{将单位正电荷从 
 $$
 电场力做正功(电势能转化为其他形式的能)，电势能减小，电场力做负功(其他形式的能转化成电势能)，电势能增加
 
+> [!NOTE]
+> 电压具有$\text{path independent}$的性质
+>
+>![image](./img/Lec1/v.png) 
+>
+>无论沿什么路径，电场力从$P$点到$Q$点所做的功都是一样的
+
 ## 电流 current
 
 >In the absence of electric field, the free electrons in the conduction band of conductors
@@ -177,6 +184,9 @@ $$
 P=IV,\text{将}\ \  \mathrm{d}q\ \ \text{看成一个关于时间}\ \ t\ \ \text{的函数，再将}\ \ P=\frac{\mathrm{d}W}{\mathrm{d}t}\ \ \text{展开即可}
 $$
 
+> [!NOTE]
+> 我们需要明确的是能量总是有限的,这句话对后续的电容器两端的电压和流经电感器的电流的连续性起着重要的支撑作用
+
 ## 无源符号规定 Passive sign convention
 - 电流在元件内部从正极流向负极，说明元件正在吸收功率，在吸收能量
 - 电流在元件内部从负极流向正极，说明元件正在释放功率，在释放能量
@@ -213,6 +223,15 @@ current source is called the direct current
 
 ![symbol](./img/Lec1/AC_Symbols.png)
 
+## 参考方向(reference direction)
+我们所遇到的元件大多数都有2个端口,比如电阻，电容器，电感器和电源
+
+并且每一个二端的元件都以"流经这个元件的电流"和"元件两端的电压"为特征
+
+为了列出有意义的方程，我们认为规定电流流经的方向和元件两端的极性就尤其重要：我们可以先假定一个方向，如果计算出来是负数，那么真实方向就和原先假定的方向相反;如果计算出来的值是正数，那么真实方向就和原先假定的方向相同
+
+我们假定的方向就叫参考方向(reference direction),这个在后续学习$KCL,KVL$的时候很重要
+![image](./img/Lec1/refDire.png) 
 
 # Lecture 2
 
@@ -538,6 +557,8 @@ $$f(t) = A \cdot \operatorname{rect}\!\left(\frac{t}{\tau}\right)$$
 $$
 \text{大小：}R=\rho\frac{l}{A}
 $$It can be shown that the current density is proportional to the electric field
+
+反应的是阻碍电流路过的能力
 ### 电流密度
 >单位面积流过的电流
 
@@ -1269,6 +1290,11 @@ volts) of the source
 $$Q=CV=>C=\frac{Q}{V},常数C被称为电容，单位为法拉(F)$$
 电容被定义为储存的电荷量与极板两端电压的比值
 
+> [!IMPORTANT]
+> 电容反应的是累积电荷的能力
+>
+>Physically, capacitance determines the ability of the capacitor to accumulate charge.
+
 ### 电容器中电流与电压的关系
 如果极板两端电压随时间变化，那么电荷量可以写成$Q=CV(t)$,其中，Q是电容器所储存的电荷量，V是极板两端的电压，C是电容器的电容
 
@@ -1286,6 +1312,10 @@ $$V(t)=\frac{1}{C}\int_{-\infty}^{t}i(t) \, dt=V_0+\frac{1}{C}\int_{0}^{t}i(t) \
 ### 功率和能量
 对于所有二端元器件，瞬时功率都可以表示成$p(t)=v(t) i(t)$
 那么对于电容器来说，也是如此，我们将上面的电流电压关系带入瞬时功率的式子，就可以得到$$p(t)=Cv(t)\frac{dv(t)}{dt}$$
+
+> [!IMPORTANT]
+> 同样地，根据功率不可能无穷大，所以电容器两端的电压也不能突变，意味着$$V(t_{0-})=V(t_{0+})$$
+
 电容器储存的能量w(t)=$\int_{-\infty}^{t} p(t) \, dt$
 再进行一次替换，得到$w(t)=C\int_{-\infty}^{t}v(t)\frac{dv(t)}{dt} \, dt=\frac{Cv^{2}(t)}{2}$
 
@@ -1332,6 +1362,15 @@ $$\oint \vec{B} \cdot d\vec{l} = \mu_0 I_{enc}$$
 其中，B是磁场大小，dl是沿着磁场的一小段路径的微元，$\mu$是真空磁导率，$I_{enc}$是所选取回路里面的电流
 
 对于长直的磁感线，电场强度是$B=\mu_0nl$
+
+> [!NOTE]
+> ![image](./img/Lec_11/coilField.png) 
+>
+>电流流过单匝线圈所产生的磁场
+>
+>通电直导线的磁场和通电螺旋管的磁场都符合右手螺旋定则
+>
+>其实这两个是一样的，看上面的图就可以看出来，通电螺线管通过的磁场其实是通电直导线的磁场叠加形成的，所以符合右手螺旋定则
 
 ### 法拉第电磁感应定律 Faraday’s Law
 $$\varepsilon = -\frac{d\Phi_B}{dt}$$
@@ -1405,6 +1444,10 @@ $$
 >对于螺旋线圈，可以替换成$\mathcal{E} = -\frac{d}{dt}\!\left(\frac{\mu_0 N^2 \pi r^2}{\ell} I\right)= -\frac{\mu_0 N^2 \pi r^2}{\ell}\,\frac{dI}{dt}$
 >
 >前面的一推系数就是自感系数$L$,所以$\mathcal{E} = -L\,\frac{dI}{dt}$
+>
+>我们还可以注意到电感和磁通链符合以下等式
+>$$L=\frac{\Lambda}{I}$$
+>即使$L$与磁通链和电流无关，只是电感器自身的性质
 
 感应电动势方向:
 
@@ -1443,6 +1486,12 @@ $$i(t) = \underbrace{\frac{1}{L}\int_{-\infty}^0 v(\tau)d\tau}_{i(0)} + \frac{1}
 ### 能量
 $$p(t) = v(t)i(t)$$
 $$p(t) = i(t) \left[ L \frac{di(t)}{dt} \right] = Li(t) \frac{di(t)}{dt}$$
+
+> [!IMPORTANT]
+> 从这个式子可以看出来，流经电感器的电流不能突变，否则$\frac{di(t)}{dt}$趋近于无穷，其他两个因式又是定值，于是功率达到无穷，这显然是不可能的
+>
+>也就是说，对于流经电感器的电流来说，$i(t_{0+})=i(t_{0-})$
+
 $$w(t) = \int_{-\infty}^{t} p(t) dt$$
 $$w(t) = L \int_{-\infty}^{t} i(t) \frac{di(t)}{dt} dt = L \int_{-\infty}^{t} i(t) di(t) = \frac{1}{2}Li^2(t)$$
 
