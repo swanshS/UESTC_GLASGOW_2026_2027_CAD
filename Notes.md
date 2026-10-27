@@ -1710,4 +1710,150 @@ $$
 $$\therefore V_c=3.9024V$$
 </details>
 
+## 交流稳态 AC steady state
 
+### 交流电量 AC Quantities
+任意一个交流电的电压都可以表示成$V(t)=V_m cos(\omega t+\phi_v)$,其中，$V_m$代表电压的峰值(peak or amplitude of the voltage),$\omega$表示的是角频率(angular frequency)
+> [!NOTE]
+> 角频率和频率的关系
+>
+>$$\omega=2\pi f$$
+
+$\phi_v$是初始相位，当时间$t=0$时，交流电的电压就是$v(0)=V_mcos\phi_v$
+
+![image](./img/extra/AC/V_ac.png) 
+
+同样的，电流也可以表示成$i(t)=I_m cos(\omega t+\phi_i)$
+
+#### 对电阻
+对电阻来说，电流电压符合欧姆定律，于是$$V(t)=V_m cos(\omega t+\phi_v)=Ri(t)=I_m cos(\omega t+\phi_i)$$
+
+根据最后一个等式，我们可以得到$$V_m=RI_m$$
+$$\phi_v=\phi_i$$
+
+也就是说，电压和电流是有相同的初始相位的，换句话说，也就是同相(in phase)
+
+![image](./img/extra/AC/in_phase.png) 
+
+#### 对电感器
+对电感来说，流过电感器的电压和电感器两端的电压有$$v(t)=L\frac{di(t)}{t}$$
+
+我们将式子带入，可以得到
+$$V_mcos(\omega t+\phi_v)=-L\omega I_msin(\omega t+\phi_i)$$
+利用三角函数的公式$cos(\alpha+\frac{\pi}{2})=-sin\alpha$，可以得到
+$$V_mcos(\omega t+\phi_v)=L\omega I_mcos(\omega t+\phi_i+\frac{\pi}{2})$$
+
+因为这两个三角函数的关系式相等，意味着幅值相等，相位相等，也就是
+$$
+\begin{cases}
+V_m=L\omega I_m\\[12pt]
+\omega t+\phi_v=\omega t+\phi_i+\frac{\pi}{2}
+\end{cases}
+$$
+
+$$\therefore I_m=\frac{V_m}{L\omega},\phi_i=\phi_v-\frac{\pi}{2}$$
+
+也就是说，$I_m,V_m$不同相，电流比电压之后了了$\frac{\pi}{2}$个相位
+
+![image](./img/extra/AC/VI_inductance.png) 
+
+#### 对于电容器 
+
+对于电容器来说，流经电容器的电流和电容器两端的电压有$$i(t)=C\frac{dv(t)}{dt}$$
+
+同时对时间求导，我们可以得到
+$$
+I_mcos(\omega t+\phi_I)=-C\omega V_m sin(\omega t+\phi_v)=C\omega V_m cos(\omega t+\phi_v+\frac{\pi}{2})
+$$
+
+我们可以得到
+
+$$
+\begin{cases}
+I_m=C\omega V_m\\[8pt]
+\phi_I=\phi_v+\frac{\pi}{2}
+\end{cases}
+$$
+
+所以，电压比电流落后$\frac{\pi}{2}$个相位
+
+![image](./img/extra/AC/cap_phase.png) 
+
+### 相量(phasors)
+
+> 为什么要有相量这个概念？
+>
+> 利用KCL,KVL列出方程的时候，我们可能会遇到含有微分的式子。但是当我们遇到正余弦波函数的时候，再用微分方程来求解就会变得非常耗时，麻烦,于是，我们就有了一个新工具，叫做相量(phasor)
+
+#### 定义
+> 相量是一个复数，用于表示正弦量
+>
+> A phasor is a complex number used for the representation of a sinusoidal
+quantity
+
+我们希望将一个正弦函数表达式写成一个复数形式
+
+以$g(t)=G_m cos(\omega t +\phi)$为例，我们可以利用欧拉公式$e^{j\theta}=cos\theta+j sin\theta$(其中$j^2=-1$)进行转换
+
+> [!NOTE]
+> 电子工程中用$j$来代替$i$，因为$i$可能还表示电流
+我们可以注意到，等式右边的复数由一个实数项($cos\theta$)和一个虚数项($sin\theta$)组成
+
+我们令一个函数g(t)
+$$g(t) = G_m \cos(\omega t + \phi) = G_m \operatorname{Re}(e^{j(\omega t + \phi)}).$$
+
+$$g(t) = G_m \operatorname{Re} (e^{j\phi} e^{j\omega t})$$
+
+$$g(t) =  \operatorname{Re} (G_m e^{j\phi} e^{j\omega t})$$
+
+$$ g(t)=\operatorname{RE} (\hat{G} e^{j\omega t})$$
+其中,$\hat{G}=G_m e^{j \phi}$
+
+$\hat{G}=G_m e^{j \phi}$被称为$g(t)$的相量
+> [!NOTE]
+> 相量由两个物理量决定
+> - 模(magnitude)
+> - 极角(polar angle)
+
+![image](./img/extra/phasor/phasor.png) 
+
+> [!IMPORTANT]
+> - 在上图中，横坐标为实数轴(real axis)，纵坐标为虚数轴(imaginary axis)
+>
+> - 相量隐藏了时间t
+>
+> - 相量本身是不会旋转的(就像定死在t=0的那个时刻)，但是乘以一个旋转因子$e^{j\omega t}$后，就会旋转起来，并且$P$在实数轴的投影等于时域信号，也就是前面提到的$g(t)$
+> - 这种将相量画在图上的叫做相量图，可以直观的展示各个正弦量的幅值和相位差，也就是说，只有角频率相同的正余弦函数才可以画在同一个相量图中
+
+##### 例题 1
+<details>
+<summary> 
+
+找到$v(t)=50 cos(50 t+\frac{\pi}{6})$的相量 
+
+</summary>
+
+我们知道$v(t)$函数的峰值等于相量$\hat{V}$的模长，$v(t)$的初始相位等于相量$\hat{V}$的极角
+
+所以，$\hat{V}=50 e^{\frac{j\pi}{6}}=50 (cos\frac{\pi}{6}+j sin{\frac{\pi}{6}})=(25\sqrt{3}+25 j) V$
+
+</details>
+
+
+##### 例题 2
+
+<details>
+<summary>
+
+一个电压$V$符合正弦波函数,他对应的相量是$$\hat{V}=30+30 j V$$
+求对应的交流电电压表达式
+</summary>
+
+我们先从模长入手:模长$|\hat{V}|=\sqrt{30^2+30^2}=30\sqrt{2} V$
+
+我们接着找极角：$tan_{\phi_v}=\frac{30}{30}=1$,所以极角$\phi_V=\frac{\pi}{4}$
+
+他的相量就可以写成$\hat{V}=30\sqrt{2} e^{\frac{j \pi}{4}} V$
+
+所以,$v(t)=30\sqrt{2} cos(\omega t+\frac{\pi}{4})$
+</details>
