@@ -1822,7 +1822,7 @@ $\hat{G}=G_m e^{j \phi}$被称为$g(t)$的相量
 >
 > - 相量隐藏了时间t
 >
-> - 相量本身是不会旋转的(就像定死在t=0的那个时刻)，但是乘以一个旋转因子$e^{j\omega t}$后，就会旋转起来，并且$P$在实数轴的投影等于时域信号，也就是前面提到的$g(t)$
+> - 相量本身是不会旋转的(就像定死在t=0的那个时刻)，但是乘以一个旋转因子$e^{j\omega t}$后，就会旋转起来，并且$P$在实数轴的投影等于时域信号，也就是前面提到的$g(t)$,即相量乘以旋转因子所得到的值的实部，等于原来的函数$g(t)$
 > - 这种将相量画在图上的叫做相量图，可以直观的展示各个正弦量的幅值和相位差，也就是说，只有角频率相同的正余弦函数才可以画在同一个相量图中
 
 ##### 例题 1
@@ -1858,7 +1858,10 @@ $\hat{G}=G_m e^{j \phi}$被称为$g(t)$的相量
 所以,$v(t)=30\sqrt{2} cos(\omega t+\frac{\pi}{4})$
 </details>
 
-### 阻抗和导纳(impedance and admittance)
+### 阻抗和导纳(impedance and admittance) 
+
+> [!TIP]
+> 之后还会提到，如果在这里没有告清楚可以先放一下，之后会结合着例子一起讲 : )
 
 #### 定义
 ##### 阻抗 impedance
@@ -1957,4 +1960,108 @@ $$I_m e^{j \phi_I}=c\omega V_m e^{j(\phi_V+\frac{\pi}{2})}=c\omega V_m e^{j\phi_
 > 用相量表示的话就是 $\hat{I}=jc \omega\hat{V}$,相量法将$\frac{d}{dt}$变成了$j\omega$
 >
 >同理，如果写成积分形式可以得到对时间积分可以等价于除以$\omega j$
+
+> [!TIP]
+> 多个正弦量之和的相量，等于这些相同正弦量各自的相量之和
+> 
+> 相量之和
+> 
+> 设$$g(t) = \sum_{k} G_{mk} \cos(\omega t + \phi_k),$$
+>
+> 和的相量
+> 
+> $$\hat{G} = \sum_{k} \hat{G}_k,$$
+>\begin{aligned}g(t) &= \sum_{k} G_{mk} \operatorname{Re} \left(e^{j(\omega t + \phi_k)}\right) \\&= \sum_{k} \operatorname{Re} \left(G_{mk} e^{j\omega t} e^{j\phi_k}\right) \\&= \sum_{k} \operatorname{Re} \left(\hat{G}_k e^{j\omega t}\right) \\&= \operatorname{Re} \left(\sum_{k} \hat{G}_k e^{j\omega t}\right) \\&= \operatorname{Re} \left[ \left(\sum_{k} \hat{G}_k\right) e^{j\omega t} \right] \\&= \operatorname{Re} \left[\hat{G} e^{j\omega t}\right].\end{aligned}$$
+
+> [!IMPORTANT]
+> 这里有一个隐藏条件，就是这几个相量的角速度$\omega$需要相同
+
+#### 例题
+
+<details>
+
+<summary>
+计算电路图在交流电中的阻抗
+
+![image](./img/extra/phasor/RLCex.png) 
+
+</summary>
+
+这个电路由电阻，电感器，电容器组成，像这样的电路我们称它为**RLC Circuit**
+
+计算阻抗的办法就是利用公式$\hat{V}=\hat{I}Z$
+
+所以要求解阻抗，可以用公式的办法，但是我们需要先找到对应的电流和电压的相量
+
+- 找到电压的相量
+	
+	根据$KVL$,我们可以列出方程$$v(t)=v_R(t)+v_L(t)+v_C(t)$$
+	在根据上面证明过的，和的相量等于相量的和(很明显，这里的电阻，电容器，电感器的角速度$\omega$是一致的)
+	> [!TIP]
+	> 为什么电阻，电感器，电容器的角频率相等？
+	>
+	> <details>
+	> <summary>
+	> 仔细想一想这个问题
+	> </summary>
+	> 因为电流都是相同的，他们之间的电压要么是直接乘以一个电阻，要么是对电流求导乘以L,要么是对电压求导乘以C ,这些运算都不会改变三角函数的角频率
+	> </details>
+	
+	既然频率一致，那么我们就可以使用上面的结论**和的相量等于相量的和**
+	
+	可以得到相量表达式
+	$$
+	\hat{V}=\hat{V_R} + \hat{V_L} + \hat{V_C} 
+	$$
+	因为
+	$$
+	\hat{V_R}=R\hat{I}
+	$$
+	$$
+	\hat{V_L}=j\omega L \hat{I}
+	$$
+	$$
+	\hat{V_C}=\frac{-j}{\omega C}\hat{I}
+	$$
+	$\therefore$
+	$$\hat{V}=(R+j\omega L+\frac{-j}{\omega C})\hat{I}$$
+	根据阻抗的公式$Z=\frac{\hat{V}}{\hat{I}}$,可以求出阻抗等于$(R+j\omega L+\frac{-j}{\omega C})=R+j(\omega L -\frac{1}{\omega C})$
+</details>
+
+> [!TIP]
+> 通过上面这道例题，我们可以发现阻抗是一个复数(complex number),其中，实数部分(real part)叫做电阻(resistance),虚数部分(imaginary part)叫做电抗(reactance),电抗的部分是由电感器和电容器这两个部分组成的。电抗是由于电路中的储能元件产生的(也就是电感器和电容器:) ),电抗被记作$X$,所以阻抗$Z=R+jX$
+>
+>  因为阻抗是一个复数，所以我们也可以用相量的形式表示出来
+>
+> 我们可以表示成$Z=|Z| e^{j\phi}$,这里的$|Z|$指的是$Z$的模长，注意并不是指的大小的绝对值
+>
+> 为了将$Z$用相量表示出来，我们需要求出$|Z|$和极角(polor angle)$\phi$
+>
+> - 计算模长
+>
+>	 用模长的公式$$|Z|=\sqrt{R^2+X^2}=\sqrt{R^2+(\omega L -\frac{1}{\omega C})^2}$$
+>
+> - 计算极角(polar angle)
+>
+>	极角就是在这个复平面相量与$x$轴正方向的夹角，回顾一下讲相量的时候的那张图片
+>
+>	 ![image](./img/extra/phasor/phasor.png) 
+> 
+>	 $x$轴为实数轴，$y$轴为虚数轴,关于这个$\phi$,我们可以列出一个关系式
+>
+>	 $$tan\phi=\frac{imaginary\ \ \ part}{real\ \ \ part}$$
+> 
+>	 $\therefore$,在这里，我们要求的极角就是$\frac{X}{R}$
+>
+> 所以这个时候，我们重新写方程$\hat{V}=\hat{I}Z$,我们可以得到，$V_m e^{j\phi_V}=I_m e ^{j \phi_I} \times |Z| e^{j \phi}=I_m|Z| e^{j(\phi_I+\phi)}$,因为相量分成两个独立的部分(模长与角度)(类似于极坐标系中的点的坐标),要使得两个相量相等，我们需要分别使模长和角度相等
+>
+> 即
+>
+> $$\begin{cases}
+> V_m=I_m|Z| \\[12pt]
+> \phi_V=\phi_I+\phi
+> \end{cases}$$
+>
+> 可以看到阻抗的极角等于电压的极角减去电流的极角
+
 
