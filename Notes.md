@@ -2065,3 +2065,115 @@ $$I_m e^{j \phi_I}=c\omega V_m e^{j(\phi_V+\frac{\pi}{2})}=c\omega V_m e^{j\phi_
 > 可以看到阻抗的极角等于电压的极角减去电流的极角
 
 
+### 交流稳态方程 AC steady-state equations
+
+#### $KCL$,$KVL$的相量表示
+
+$KCL$ 和$KCL$在时域中可以写成
+$$
+\sum_k i_k(t)=0
+$$
+$$
+\sum_k v_k(t)=0
+$$
+
+通过分离所有的独立电源，我么可以得到
+
+$$
+\sum_k i_k(t)=- \sum_k i_{sk}(t)\tag{1}
+$$
+
+$$
+\sum_k v_k(t)=- \sum_k v_{sk}(t)\tag{2}
+$$
+
+在交流稳态中，方程(1),(2)中的所有变量都是正弦波
+
+通过之前已经证明过的相同角频率的正弦波之和的相量等于相同角频率正弦波相量之和
+
+方程(1)(2)可以被改写为
+
+$$
+\sum_k \hat{I_k} = -\sum_k \hat{I_{sk}}\tag{3}
+$$
+
+$$
+\sum_k \hat{V_k} = -\sum_k \hat{V_{sk}}\tag{4}
+$$
+
+对于每一条支路来说,又有$\hat{V_k}=\hat{I_k} Z_k$,将这个式子代入(4),我们可以得到
+$$
+\sum_k \hat{I_k} Z_k = - \sum_k \hat{V_{sk}}
+$$
+
+> [!TIP]
+> 解题步骤
+>
+> 首先我们先确定参考方向和参考极性
+>
+> 接着，我们将电源都写成相量的形式
+>
+> 紧接着我们需要算出每一条支路的阻抗
+>
+> 最后，我们再对所有的独立节点和网格列$KVL$,$KCL$ 方程
+>
+> 我们再将相量形式转换成一般的三角函数形式
+
+#### 例题
+<details>
+<summary>
+
+![image](./img/extra/AC/acSteadyStateEXample.png) 
+
+如图，$v_{s1}=V_{ms1}cos(\omega t+ \phi_{s1})$ ,$v_{s2}=V_{ms2}cos(\omega t +\phi_{s2})$
+
+$L_1,R_1,C_2,R_3,L_3$已知，请计算出所有的电流和电压
+</summary>
+
+我们将它转成对应的相量的图
+
+![image](./img/extra/AC/exacsteadt.png) 
+
+
+先将这些电源从三角函数形式转换成相量形式
+
+$v_{s1}(t)-> \hat{V_{s1}}=V_{ms1} e^{j\phi_{s1}}$
+
+$v_{s2}(t)-> \hat{V_{s2}}=V_{ms2} e^{j\phi_{s2}}$
+
+我们再将这些原电路的电阻，电容器，电感器转化为各个支路上面的阻抗
+
+我们将L1 ,R1 一起看成Z1,R3 L3 一起看成Z3,C2 看成Z2
+
+$$Z_1=R_1+j\omega L_1$$
+$$Z_2=-\frac{j}{\omega C_2}$$
+$$Z_3=R_3+j\omega L_3$$
+
+我们找到了各个支路的阻抗，我们就可以建立电路的方程了
+
+我们可以写出一个KCL方程$\hat{I_1}=\hat{I_3}+\hat{I_2}$
+
+对于网格I，我们可以列出KVL$$\hat{I_1}Z_1+\hat{I_2}Z_2=V_{s1}$$
+
+对于网格II，我们可以列出KVL$$\hat{I_3}Z_3-\hat{I_2}Z_2=V_{s2}$$
+
+三个方程，三个未知数，我们可以求解出来
+$$
+\begin{cases}
+\hat{I_1}=-\hat{I_2}\frac{Z_2}{Z_1}+\frac{\hat{V_{s1}}}{Z_1}\\[12pt]
+\hat{I_3}=\hat{I_2}\frac{Z_2}{Z_3}+\frac{V_{s2}}{Z_3}\\[12pt]
+\hat{I_2}=\frac{-\hat{V_{s2}}Z_1+\hat{V_s1}Z_3}{Z_1Z_2+Z_1Z_3+Z_2Z_3}
+\end{cases}
+$$
+</details>
+
+
+
+
+
+
+
+
+
+
+
