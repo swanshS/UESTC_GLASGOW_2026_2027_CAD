@@ -1,22 +1,17 @@
 ---
 header-includes:
-  - \usepackage{fontspec}
   - \usepackage{xcolor}
   - \usepackage{amsmath,amssymb}
-  - \usepackage{geometry}
-  - \geometry{a4paper, margin=2cm}
   - \usepackage{unicode-math}
-  - \setmainfont{Noto Sans CJK SC}[
-      BoldFont={Noto Sans CJK SC Bold},
-      ItalicFont={Noto Sans CJK SC},
-      BoldItalicFont={Noto Sans CJK SC Bold}]
-  - \setCJKmainfont{Noto Sans CJK SC}[
-      BoldFont={Noto Sans CJK SC Bold}]
   - \setmathfont{Latin Modern Math}
 mainfont: "Noto Sans CJK SC"
 CJKmainfont: "Noto Sans CJK SC"
+geometry: a4paper, margin=2cm
+fontsize: 11pt
+secnumdepth: 5
+toc-depth: 5
+block-headings: true
 ---
-
 
 # lecture 1 Introduction
 
@@ -1535,8 +1530,7 @@ $$\int\frac{dv}{v}=
 -\frac{1}{RC}\int dt$$
 
 得到：
-$$\ln|v(t)|=
--\frac{t}{RC}+K$$
+$$\ln|v(t)|=-\frac{t}{RC}+K$$
 
 化简得
 $$v(t)=e^k e^{-\frac{t}{RC}}$$
@@ -1584,6 +1578,194 @@ $$P(t)=-\frac{(V_0)^2}{R}e^{-\frac{2t}{\tau}}(P=VI)$$
 > 关于阶跃响应的结果和分析方式和自然响应类似，于是不再赘述，请读者自行推导:)
 
 
+# Lecture 13 运算放大器 operational  amplifier
+
+> 运放是一个特性与电压控制电压源(VCVS)类似的电子元件 
+
+## 结构
+
+![image](./img/Lec13/pic.png) 
+
+上图展示的是典型的8脚双列直插封装(DIP)，引脚8是空引脚,引脚1,5一般不会用到，剩下5个重要的引脚分别是
+
+1. 引脚2：反相输入端
+2. 引脚3：同相输入端
+3. 引脚6：输出端
+4. 引脚7：正电源端$V^+$
+5. 引脚4：负电源段$V^-$
+
+作为有源器件，运算放大器需要连接电压源为期供电
+
+
+![image](./img/Lec13/VSource.png) 
+
+> [!TIP]
+> 通常情况下，为了电路图的简单，我们不画出运放的电源
+
+根据$KCL$，我们可以得到$$i_o=i_1+i_2+i_++i_-$$
+
+将运放的内部分为输入和输出，输入和输出都通过戴维南等效可以等效为下面的电路
+> [!TIP]
+> 我们知道，戴维南等效需要两个端点，但是输出端看似只有一个端点？其实是两个，一个是$v_{out}$的端点，一个是$GND$
+
+![image](./img/Lec13/equal.png) 
+
+其中，输入电压$R_i$是从输入端看进去的等效电阻，输出电压$R_o$是由输出端看进去的等效电阻,差分输入电压$V_d=V_2-V_1$,$V_1,V_2$分别是反相输入端电压和同相输入端电压
+
+> [!TIP]
+> 我们可以通过等效的电路看出，$V_o$的符号与$V_d$的符号是相同的，而且$V_d$的值是同相输入端减去反相输入端，从$V_o=AV_d=A(V_2-V_1)$这里就解释了同相和反相的意思：同相的意思是，电压越大，输出的电压越大，是一个同相的关系;反相的意思是电压越大，输出的电压越小，是一个反相的关系
+
+|     参数      |        典型范围        |     理想值      |
+| :-----------: | :--------------------: | :-------------: |
+|   开环增益A   |    $10^5$ ~ $10^8$     |    $\infty$     |
+|   输出电阻    |    $10$~$100\Omega$    |    $0\Omega$    |
+| 输入电阻$R_i$ | $10^5$~$10^{13}\Omega$ | $\infty \Omega$ |
+|  电源电压Vcc  |       $5$~$24V$        |                 |
+
+## 反馈
+> 反馈指的是将输出信号的一部分通过特定电路引回到输入端的过程
+
+### 负反馈
+
+当输出端连接到反相输入端时，就形成了负反馈,即如果初始状态下反相输入端大于正相输入端，那么输出端会使反相输入端的值变小，类似的，如果初始状态下反相输入端小于正相输入端，那么输出端会使反相输入端变大
+
+![image](./img/Lec13/neg.png) 
+
+上图就是将输出端连接到反相输入端
+
+#### 闭环增益 closed-loop gain
+
+> 如果存在输入到输出的反馈路径，那么此时的输出电压与输入电压的比值称为闭环增益
+
+> [!TIP]
+> 实验证明，运放的闭环增益与开环增益基本无关
+
+#### 饱和 saturation
+
+受到电源电压的限制，运放不可能将一个输入电压放大到无穷大，这就有了饱和的概念
+
+##### 正饱和 positive saturation
+
+当$v_d$大到某一个值的时候，输出的电压就会饱和，因为能量的原因，输出电压最多为电源的正电源端的电压
+##### 负饱和 negative saturation
+
+当$v_d$小到某一个值的时候，输出的电压就会饱和，因为能量的原因，输出电压最多为电源的负电源端的电压
+
+##### 线性区
+当电压$v_d$在这两个饱和电压之间的时候，输出电压就会等于A倍的$v_d$
+
+![image](./img/Lec13/opampFunc.png) 
+
+> [!TIP]
+> 上图中正饱和和负饱和的电压大小都是$V_{cc}$,这是运放器的正电源端和负电源端决定的。当然，如果一个运放器的正电源端为+5v,负电源端为-3v,那么运放器的饱和电压就会分别为5v和-3v,即正电源端和负电源端，正饱和电压和负饱和电压的绝对值可以不相等
+
+
+###### 例题
+<details>
+
+<summary>
+
+运算放大器的开环增益为$2\times 10^5$,输入电阻为$2M \Omega$,输入电阻为$50 \Omega$,如图所示.(a)求闭环增益$v_o/v_s$(b)当$v_s=2V$时，电流$i$的值是多少
+
+![image](./img/Lec13/neg.png) 
+
+</summary>
+
+根据前面的知识，我们可以将输入端等效成输入电阻，将输出端等效成一个受控电压源串联上一个输出电阻,我们可以得到等效后的电路图
+
+![image](./img/Lec13/negEqual.png) 
+
+(a) 求闭环收益
+
+我们可以在节点1列出KCL
+$$
+\frac{v_s-v_1}{10\times 10^3}=\frac{v_1}{2000\times 10^3}+\frac{v_1-v_o}{20\times 10^3}
+$$
+
+可以得到
+
+$$200v_s=301v_1-100v_o$$
+
+即$2v_s \approx 3v_1 -v_o$
+
+所以$v_1=\frac{2v_s+v_o}{3}$
+
+对O点列方程
+$$ \frac{v_1-v_0}{20\times 10^3}=\frac{v_o-Av_d}{50}$$
+
+由$v_d=-v_1$,并且$A=200000$
+
+可得$v_1-v_o=400(v_o+200000v_1)$
+
+所以$\frac{v_o}{v_s}=-1.9999699$
+
+(b)当$v_s=2V$时，$v_o=-3.9999398V$,从而也可以求出$v_1=20.066667\mu V$,从而$$i=\frac{v_1-v_o}{20\times 10^3}=0.19999 mA$$
+
+
+> [!IMPORTANT]
+> 该题因为运算放大器的输出端只连接了反相输入端作为负反馈，没有连接其他的负载，所以对于O点来说，电流不会通过输出端的端口向外流出;但是如果将电路中的运算放大器的输出端还要连接一个负载，那么对O点的节点分析方程就会改变，所求得的闭环增益也会发生变化
+
+</details>
+
+## 理想运算放大器
+
+### 与实际运算放大器的对比
+> 理想运算放大器是一个开环增益无穷大，输入电阻无穷大，输出电阻为0的放大器
+
+
+理想运算放大器和真实的运算放大器的对比与之前提到的表格内容一致
+
+
+
+|     参数      |        典型范围        |     理想值      |
+| :-----------: | :--------------------: | :-------------: |
+|   开环增益A   |    $10^5$ ~ $10^8$     |    $\infty$     |
+|   输出电阻    |    $10$~$100\Omega$    |    $0\Omega$    |
+| 输入电阻$R_i$ | $10^5$~$10^{13}\Omega$ | $\infty \Omega$ |
+|  电源电压Vcc  |       $5$~$24V$        |                 |
+
+### 重要性质
+- 两个输入端的输入电流均为0
+- 两个输入端电压差为0
+
+![image](./img/Lec13/ideaOpAmp.png) 
+
+电流为0的原因
+- 因为输入电阻无穷大，相当于输入端开路，所以输入端的电流为0
+
+![image](./img/Lec13/virtualOpenCircuit.png) 
+
+> [!IMPORTANT]
+> 虽然输入端的电流是0,但是输出端的电流不一定为0,因为
+> 
+> ![image](./img/Lec13/VSource.png) 
+>
+> $i_++i_-$不一定为0,因为还有$i_+,i_-$
+
+
+两输入端电压差为0的原因
+- 因为开环增益趋近于无穷，但是$v_o$只能是一个有限的值，那么只有$v_d=0$,即$v_1=v_2$
+
+
+> [!IMPORTANT]
+> 这两条性质，前面一个叫做虚断，像断路一样，没有电流流经运算放大器;后面一个叫做虚短,像短路一样，$v_1,v_2$电压相等.值得注意的是，虚短需要负反馈这么一个条件，而虚断只要是理想的运算放大器都满足的一个性质
+
+#### 例题
+
+<details>
+
+<summary>
+计算这个电路的运算放大器的闭环增益(为理想运算放大器)
+
+![image](./img/Lec13/ex.png) 
+
+</summary>
+
+根据理想运算放大器的虚短虚断的性质，我们可以得到$v_1=v_2=v_s$,又因为$i_1=0$,所以$40k\Omega$和$5k\Omega$流过的电流是相等的，$v_1$两端的电压就等于$v_1$,根据串联分压，可以得到$v_o=9v_1=9v_s$
+
+所以，闭环增益为$\frac{v_o}{v_s}=9$
+
+</details>
 
 # Extra
 ## $\footnotesize \Delta-Y$变换和$\footnotesize Y-\Delta$变换
@@ -2168,8 +2350,115 @@ $$
 </details>
 
 
+### 交流电功率 AC power
 
+我们知道，瞬时功率$p(t)=v(t) i(t)$
 
+那么，经过一段时间，所做的功就是对功率的积分，$p=\int_0^T p(t)dt$,瞬时功率就等于所做的功初一总时间$$P_{av}=\frac{1}{T} \int_0^T p(t) dt$$
+
+对于纯电阻来说，$v(t)=R i(t)$,于是$p_{av}=\frac{R}{T} \int_0^T i^2(t)dt$
+
+#### 均方根 root mean square
+
+##### 电流电压例子
+对于电流的均方根，定义为$$I_{rms}=\sqrt{\frac{1}{T}\int_0^T i^2(t)dt}$$
+
+有了均方根的定义，我们可以将平均功率用电流的均方根表示$$P_{av}=RI^2_{rms}$$
+
+> [!TIP]
+> 因此，这段时间的平均功率等于电流为$I_{rms}$流过该电阻所产生的功率
+
+同样地，我们将平均功率用电压来表示的话，会得到$$P_{av}=\frac{1}{R}(\frac{1}{T}\int_0^T v^2(t)dt)$$
+
+因为电压的均方根等于$\sqrt{\frac{1}{T} \int_0^T v^2(t)dt}$
+
+所以，平均功率也可以表示成$\frac{V^2_{rms}}{R}$
+
+从上述的例子中可以发现，均方根的意义就是将在一段时间内不断变化的量，等效于一个恒值
+
+##### 正弦函数的均方根
+
+###### 正弦函数的电阻 
+
+设正弦的电流函数$i(t)=I_m cos(\omega t +\phi_i)$流过电阻
+
+$i^2(t)=i^2_m cos^2(\omega t +\phi_i) = \frac{I^2_m}{2}[1+cos(2\omega t +2\phi_i)]$
+
+所以,$I_{rms}=\frac{I_m}{\sqrt{2}}$
+
+同理，对于电压来说，$V_{rms}=\frac{V_m}{\sqrt{2}}$
+
+###### 正弦函数的一般情况
+
+一般情况下，电流和电压并不是同相(in phase)
+
+所以我们不能将电流和电压的初始相位看作是相等的，我们设电压和电流分别为$v(t)=V_m cos(\omega t +\phi_V)$,$i(t)=I_m cos(\omega t +\phi_I)$
+
+于是，功率就可以表示成$p(t)=V_m cos(\omega t +\phi_V) \times I_m cos(\omega t +\phi_I)==V_m I_m cos(\omega t +\phi_V) cos(\omega t +\phi_I)$
+
+根据三角函数的公式，我们可以化简为$\frac{V_m I_m}{2} [ cos(\phi_V-\phi_I) + cos(2\omega t + \phi_V + \phi_I)]$
+
+在一个周期$T$ 以内做的功$$P_{av}=\frac{V_m I_m}{2} cos(\phi_V - \phi_I)$$
+
+另$\phi=\phi_V-\phi_I$
+
+所以，$p_{av}=V_{rms} I_{rms} cos\phi$
+
+> [!TIP]
+> 这里的$cos\phi$也被称作为功率因数(power factor)
+
+我们也可以用相量法来求解平均功率
+
+我们会用到电压的相位和电流的复共轭相位
+
+$$\hat{V}=V_m e^{j\phi_v}$$
+$$\hat{I^*}=I_m e^{-j\phi_i}$$
+
+我们将复功率$\hat{S}$定义成$\frac{1}{2} \hat{V} \hat{I^*}$
+
+所以，复功率等于$\frac{1}{2}V_m I_m e^{j(\phi_v - \phi_I)}=V_{rms} I_{rms} e^{j\phi}$
+
+平均功率就是$\operatorname{RE}\{\hat{S}\}=\operatorname{RE}(\frac{1}{2}\hat{V}\hat{I^*})$
+
+在电压电流的均方差都不变的情况下，改变功率因子可以改变平均功率
+
+事实证明，当负载的整体表现为感性时(即电流滞后于电压)我们可以在负载两端并联一个电容器来调整功率因子
+
+![image](./img/extra/AC/correctionOfAPF.png) 
+
+这个时候，负载可以等效于电阻和电感串联
+
+![image](./img/extra/AC/correctionOfpf_2.png) 
+
+下面展示如何计算电容器的值使得功率因子为1
+
+从图上我们可以看出来，$\hat{I}=\hat{I_c}+\hat{I_d}$
+
+因为电容器两端的电压也是$\hat{V}$,所以$\hat{I_c}=j\omega C \hat{V}$
+
+$\hat{I_d}=\frac{\hat{V}}{R+j \omega L}=(\frac{R-j\omega L}{R^2+\omega^2 L^2})\hat{V}$(分母有理化)
+
+所以$\hat{I}=\hat{I_c}+\hat{I_d}=\frac{R}{R^2+\omega^2 L^2}\hat{V}+j (\omega C -\frac{\omega L}{R^2+\omega^2 L^2})\hat{V}$
+
+我们将电容器的值选为$\frac{L}{R^2+\omega^2 L^2}$,那么$\hat{I}=\frac{R}{R^2+\omega^2 L^2}\hat{V}$,此时$\phi=0,cos\phi=1$
+
+> [!IMPORTANT]
+> - 在设备端子两端并联一个电容，并不会改变该设备所消耗的总平均功率,因为电容器只是储存能量，它本身并不消耗能量。
+> - 在设备两端并联电容，不会改变设备自身的端电压
+
+### 复频率(complex frequency)
+
+我们之前学了将正弦函数化成相量形式，现在考虑电压$$v(t)=V_m e^{\sigma t} cos(\omega t +\phi_V)$$
+
+同样地，利用欧拉公式，我们可以将电压化成$\operatorname{RE}[V_m e^{j\phi_V} e^{(\sigma+j\omega)t}]$
+
+还是将相量定义成$\hat{V}=V_m e^{j\phi_V}$
+
+我们引入一个新的概念复频率，记作$s$,它的值$s=\sigma + j \omega$
+
+该频率的实数部分表征的是电压峰值的指数衰减或增长，虚部则表示角频率
+
+我们将电压重写为$v(t)=\operatorname{RE}[\hat{V}e^{st}]$
 
 
 
