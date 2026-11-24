@@ -1180,6 +1180,8 @@ $$ 将全部独立源设置成0,保留受控源的关系$$
 >
 >正负极板各自携带正电荷和负电荷
 
+### 符号
+![image](./img/Lec_10/symbol.png) 
 ### 工作原理
 
 能量被储存到`正负极板之间的电场`中,这个能量的大小取决于电容器的电容大小和两极板之间的电压 
@@ -2185,6 +2187,25 @@ $$i_s=\frac{v_s-v_o}{R_3}=\frac{v_s-(1+\frac{R_2}{R_1})v_s}{R_3}=-\frac{R_2}{R_1
 
 
 所以从输入端看进去，等效电阻为$-\frac{R_1R_3}{R_2}$，为负数，所以称为负阻电路
+
+### 积分器 op amp integrator
+![image](./img/Lec_10/integrator.png) 
+
+根据运算放大器的虚断和虚短
+我们可以知道流经R的电流没有流过运放器，全部流向了电容器
+于是我们可以写出方程
+$$\frac{0-v_s}{R}+C \frac{d(0-v_o)}{dt}=0$$
+我们可以解得$$v_o(t)=-\frac{1}{RC} \int_0^t v_s(t) dt $$
+
+### 微分器 op amp differentiator
+
+![alt text](./img/Lec_10/op_amp_diff.png) 
+
+同样地，根据运放器的虚短和虚断，我们可以列出方程
+$$C \frac{d(0-v_s)}{dt}+\frac{0-v_o}{R}=0$$
+
+解得
+$$v_o=-CR \frac{dv_s}{dt}$$
 
 ## 运算放大器的级联电路 Cascade circuit of operational amplifiers
 
