@@ -1654,6 +1654,110 @@ $$p(t)=I_0^2 R e^{-\frac{2t}{\tau}}$$
 
 ## RLC电路
 
+### 二阶微分方程的求解
+> 在这一章，我们主要分析带有两个储能器件的电路，比如一个电感器一个电容器，或者两个电感器，或者两个电容器,在计算这个电路的时候，我们会列出一个**二阶微分方程**
+
+#### 系数为0
+
+关于列出微分方程后如何求解我们就不在这里展开了，我们就直接开始看解的形式。
+
+对于微分方程$\frac{d^2 y}{x^2}+a\frac{dy}{dx}+bx=0$这个二阶微分方程，我们需要讨论通解
+
+- 当$a^2-4b>0$时，有两个不同的特征根，分别为
+
+\begin{cases}
+t_1=\frac{-a+\sqrt{a^2-4b}}{2}\\[8pt]
+t_2=\frac{-a-\sqrt{a^2-4b}}{2}
+\end{cases}
+
+方程的通解为$$y=A_1 e^{t_1 x}+A_2 e^{t_2 x}$$
+
+- 当$a^2-4b=0$时，有两个相同的特征根
+
+$$t=t_1=t_2=-\frac{a}{2}$$
+
+方程的通解为$$y=A_1 e^{t x}+A_2 x e^{t x}$$
+
+- 当$a^2-4b<0$时,有两个不同的虚数解
+
+
+\begin{cases}
+t_1=\frac{-a+\sqrt{a^2-4b}}{2}\\[8pt]
+t_2=\frac{-a-\sqrt{a^2-4b}}{2}
+\end{cases}
+
+因为$a^2-4b<0$,所以开根号后为虚数，我们根据欧拉公式$e^{\theta i}=\cos{\theta}+\sin{\theta} i$
+
+我们可以求得通解为$$y=e^{-\frac{a}{2} x}(A_1 \cos{\frac{\sqrt{4a-b^2}}{2}x} +A_2 \sin{\frac{\sqrt{4a-b^2}}{2}x} )$$
+
+我们令$\alpha =\frac{a}{2},\omega_0=\sqrt{b}$
+
+我们有关系式$a=2\alpha,b=\omega_0^2$
+
+那么所有特征方程的根都变成了
+
+\begin{cases}
+t_1=-\alpha+\sqrt{\alpha^2-\omega_0^2}\\[8pt]
+t_2=-\alpha-\sqrt{\alpha^2-\omega_0^2}
+\end{cases}
+
+其中的$\alpha$叫做奈培频率或者阻尼系数(neper frequency,damping coefficient)，
+$\omega_0$叫做无阻尼自然频率或者谐振频率(undamped natural frequency,resonant frequency)
+
+我们定义阻尼因子(damping factor ,damping ratio)为$\zeta=\frac{\alpha}{\omega_0}$
+
+\begin{cases}
+\text{overdamped}:\zeta>1\\
+
+\text{critically damped}:\zeta>1\\
+
+\text{overdamped}:\zeta>1\\
+\end{cases}
+
+- critically damped:曲线不会震荡，并且会最快地到达最终状态
+- overdamped：曲线不会震荡，并且会到达最终状态，时间比critically damped慢
+- underdamped: 曲线会震荡，经过很长时间到达最终状态
+#### 系数不为0
+我们先求解对应的系数为0的二阶微分方程的通解，在求一个原微分方程的特解，两个相加就是原微分方程的通解
+
+> [!TIP]
+> 在选取特解时，我们可以让解为一个常数，然后带入算出这个常数的值就可以了
+
+![image](./img/Lec12/particularSolution.png) 
+
+### zero input response of parallel RLC circuit
+![image](./img/Lec12/RLCPara.png) 
+
+因为并联，我们可以列出$$v(t)=L\frac{di(t)}{dt}\tag{1}$$
+
+另外，我们对a点列出KCL$$\frac{v(t)}{R}+i(t)+C\frac{dv(t)}{dt}=0 \tag{2}$$
+
+将(1)带入(2)中，我们可以得到一个二阶微分方程，$$LC \frac{d^2i(t)}{dt^2}+\frac{L}{R} \frac{di(t)}{dt}+i(t)=0$$
+
+化简可以得到
+$$ \frac{d^2i(t)}{dt^2}+\frac{1}{RC} \frac{di(t)}{dt}+\frac{1}{LC}i(t)=0$$
+
+再解具体的微分方程就可以了
+
+> [!TIP]
+> 因为我们要求解的是二阶微分方程，所以我们需要两个初始条件，正好对应电路在0时刻时，流过电感器的电流$I_0$和电容器两端的电压$V_0$,值得注意的是，我们在求解二阶微分方程中$A_1,A_2$的时候，需要我们带着这个方程去求，也就是要带着$A_1,A_2$去求，如果有必要，还需要用$A_1,A_2$将v和i的表达式写出来，然后可能会对他求导,然后才是带入起始条件
+
+
+### zero input response of series RLC circuit
+
+![image](./img/Lec12/RCLSeries0input.png) 
+
+分析类似，只要能列出这个二阶方程并找到两个初始条件就能做了
+### step response of parallel RLC circuit
+![image](./img/Lec12/stepREsponseParaRCL.png) 
+
+分析类似，只要能列出这个二阶方程并找到两个初始条件就能做了
+### step response of series RLC circuit
+
+![image](./img/Lec12/stepSeriesRLC.png) 
+分析类似，只要能列出这个二阶方程并找到两个初始条件就能做了
+
+
 # Lecture 13 运算放大器 operational  amplifier
 
 > 运放是一个特性与电压控制电压源(VCVS)类似的电子元件 
